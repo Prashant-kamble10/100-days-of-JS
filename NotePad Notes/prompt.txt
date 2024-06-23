@@ -1,0 +1,47 @@
+Hey
+I want to build a carousel in reactjs how can I make it? 
+Don't give me a code for it; just give me a logical steps to build it with simple css design. 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ Home
+  Profile +
+     -Details +
+        -Location +
+             -City
+  Settings +
+      -Account
+      -Security +
+         -Login
+         -Register +
+             -Random data 
+
+I want this structure for my Recursive navigation, according to the structure i have a json file, just give me a code for how can i map a nested array of array 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Hey chat gpt I am non-tech guy, and learning NodeJs, so can you explain me what is "Globals" in NodeJs with an simple Analogy ?
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Summarize the following in detail pointwise English language.
+
+continue to Summarize the above following text  in detail pointwise English language.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+hey, chat gpt I am looking for the game name, 
+I will provide the description of the game, guess the name of the game
+
+a 4 group of people,
+1st person give a words,
+2nd person needs to give a word which is related/synonym/antonym/ryming etc to the 1st person words,
+now this same thing will be done by the 3rd person but with the word given by the 2nd person,
+and so on the cycle will go on.
+
+only catch over here is that, none of the word shouldn't start with "S". 
+
+can we play word chain/word association game with you,
+you define the rule
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+explain me
+why lazy loading is done in react?
+how lazy loading is done in react?
+what is lazy loading in react?
+when to use lazy loading in react?

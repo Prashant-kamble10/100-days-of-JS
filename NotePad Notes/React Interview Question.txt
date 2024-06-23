@@ -1,0 +1,782 @@
+
+contextApi == Redux,
+
+
+1) Hooks:
+
+useState: Manages state in functional components.
+
+import React,{useState} from 'react'
+
+const WhyUseState = () => {
+
+    let sample =1;   // with normal JS variable
+    const [state, setState] = useState(0)   // with state variable
+
+
+  return (
+    <div>
+      <h2>with Normal Variable</h2> 
+      <button onClick={()=>{console.log(sample++)}}></button>
+      {sample}
+
+
+
+      <h2>with State Variable</h2>
+      <button onClick={()=>{setState(state+1)}}></button>
+      {state}
+      {console.log("state", state)}
+    </div>
+  )
+}
+
+export default WhyUseState
+
+
+useEffect: Handles side effects in functional components.
+
+import React, { useEffect, useState } from "react";
+
+const Workshop = () => {
+  const [state, setState] = useState(0);
+  const [display, setDisplay] = useState("");
+
+
+  function handleInput(event){
+    setDisplay(event.target.value)
+  }
+
+  useEffect(() => {
+    console.log("useEffect called");
+  },[])
+
+  useEffect(() => {
+    console.log("useEffect called");
+  })
+ 
+  useEffect(() => {
+    console.log("useEffect called");
+  },[display])
+
+  return (
+    <div>
+      {console.log("component render")}
+
+      {state}
+
+      <button
+        onClick={() => {
+          setState(state + 1);
+        }}
+      >
+       
+        increase
+      </button>
+      <button
+        onClick={() => {
+          setState(state - 1);
+        }}
+      >
+    
+        decrease
+      </button>
+
+    
+    <div>
+         
+      <input type="text" onChange={handleInput} />
+      {display}
+    </div>
+    </div>
+
+
+  );
+};
+
+export default Workshop;
+
+Lifecycle Method in class component.
+
+there are 2 phases, render phase and commit phase
+there are 3 methods, componentDidMount, componentDidUpdate, componentWillUnmount.
+
+import React, { Component } from 'react';
+import ChildComponent from './ChildComponent';
+import Child2Component from './Child2Component';
+
+export class ParentComponent extends Component {
+  constructor(props) {
+    super(props);
+    console.log("parent constructor");
+  }
+
+  componentDidMount() {
+    console.log("parent componentDidMount");
+  }
+
+  componentDidUpdate(){
+    console.log("parent componentDidUpdate")
+  }
+
+  componentWillUnmount(){
+    console.log("parent componentWillUnmount")
+  }
+
+  render() {
+    console.log("parent render");
+    return (
+      <div>
+      <ChildComponent />
+      <Child2Component />
+      </div>
+    );
+  }
+}
+
+export default ParentComponent;
+ ------------------------------------------------------------------------------------------------
+import React, { Component } from 'react';
+
+export class ChildComponent extends Component {
+  constructor(props) {
+    super(props);
+    console.log("child1 constructor");
+  }
+
+  componentDidMount() {
+    console.log("child1 componentDidMount");
+  }
+
+  componentDidUpdate(){
+    console.log("child1 componentDidUpdate")
+  }
+
+  componentWillUnmount(){
+    console.log("child1 componentWillUnmount")
+  }
+
+  render() {
+    console.log("child1 render");
+    return (
+      <div>
+     
+      </div>
+    );
+  }
+}
+
+export default ChildComponent;
+ ------------------------------------------------------------------------------------------------
+
+
+
+import React, { Component } from 'react';
+
+export class Child2Component extends Component {
+  constructor(props) {
+    super(props);
+    console.log("child2 constructor");
+  }
+
+  componentDidMount() {
+    console.log("child2 componentDidMount");
+  }
+
+  componentDidUpdate(){
+    console.log("child2 componentDidUpdate")
+  }
+
+  componentWillUnmount(){
+    console.log("child2 componentWillUnmount")
+  }
+
+
+  render() {
+    console.log("child2 render");
+    return (
+      <div>
+        
+      </div>
+    );
+  }
+}
+
+export default Child2Component;
+ ------------------------------------------------------------------------------------------------
+
+OUTPUT - 
+parent constructor,
+parent render,
+child1 constructor,
+child1 render,
+child2 constructor,
+child2 render,
+child1 componentDidMount,
+child2 componentDidMount,
+parent componentDidMount.
+
+ ------------------------------------------------------------------------------------------------
+
+
+
+
+useContext: Accesses the context in functional components.
+
+
+
+Context API: Uses the createContext, Provider, and Consumer or useContext hook to share data. It creates a context object which can be provided to and consumed by components.
+
+const MyContext = React.createContext();
+
+function MyProvider({ children }) {
+  const value = useSomeValue();
+  return (
+    <MyContext.Provider value={value}>
+      {children}
+    </MyContext.Provider>
+  );
+}
+
+function MyComponent() {
+  const value = useContext(MyContext);
+  return <div>{value}</div>;
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+useReducer: Manages complex state logic with a reducer function.
+
+useState == useReducer 
+
+useState and useReducer (similarities)
+
+State Management: Both hooks are used for managing state in functional components.
+Component Re-renders: Both hooks cause the component to re-render when the state they manage changes.
+Preserves State Across Renders: Both useState and useReducer keep the state persistent across re-renders.
+Functional Updates: Both hooks allow you to use functional updates, where the new state depends on the previous state.
+
+when to use useState and useReducer
+Use useState for simple state management needs.
+Use useReducer when you have more complex state logic that involves multiple state transitions or when the state update logic is non-trivial.
+
+import React, { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(count - 1)}>Decrement</button>
+    </div>
+  );
+}
+
+------------------------------------------------------------------------------------------------
+
+Reducer Function:useReducer: You define a reducer function that takes the current state and an action, and returns the new state. This is particularly useful for more complex state logic.
+Action Dispatching:useReducer: Uses actions to describe state changes, which are dispatched and handled by the reducer function.
+Initial state:  Initializes state with an initial state object.
+
+import React, { useReducer } from 'react';
+
+// Define the initial state
+const initialState = { count: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  // Pass the initial state to useReducer
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <div>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
+    </div>
+  );
+}
+
+export default Counter;
+
+
+
+useMemo: Memoizes values to optimize performance.
+useCallback: Memoizes callback functions to prevent unnecessary renders.
+useRef: Creates a mutable object that persists between renders.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2) Higher Order Components (HOC):
+What?: Functions that take a component and return an enhanced version.
+When?: Reuse component logic, share code, or manipulate component behavior.
+Why?: Promotes code reusability and separation of concerns.
+How?: Wrap a component with a function that adds or modifies its behavior.
+
+custom hooks == HOC
+
+HOC: A function that takes a component and returns a new component with additional props. It is a pattern for reusing component logic.
+
+function withExtraProps(WrappedComponent) {
+  return function EnhancedComponent(props) {
+    const extraProps = useExtraProps();
+    return <WrappedComponent {...props} {...extraProps} />;
+  };
+}
+
+const EnhancedComponent = withExtraProps(MyComponent);
+
+Usage:
+HOC: Useful for cross-cutting concerns where you need to add specific functionality to multiple components (e.g., logging, error handling, performance monitoring).
+
+Reusability:
+HOC: Enhances components by wrapping them, making it easy to apply common logic across different parts of the application. However, it can lead to "wrapper hell" if overused.
+
+Performance:
+HOC: Can potentially avoid unnecessary re-renders by controlling how props are passed down and when the wrapped component should update.
+
+Ease of Debugging:
+HOC: Can be harder to debug due to the additional layers of abstraction introduced by wrapping components.
+
+When to Use
+HOC:
+When you need to reuse component logic across multiple components.
+When you want to add additional behavior to components in a composable way (e.g., authorization checks, logging).
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3) Life Cycle Methods of Components:
+Class Components: Traditional React components using ES6 classes.
+Mounting: Component is being created and inserted into the DOM.
+Updating: Component is being re-rendered as a result of changes.
+Unmounting: Component is being removed from the DOM.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4) State management (all about data):
+
+what is state ? => how we manages/uses data into a component.
+what is props? => how we pass/inject data to a particular component.
+
+State/Props: Internal state for a component/external data passed to a component.
+
+Props drilling: Passing props through multiple layers of components.
+
+Context: Provides a way to pass data through the component tree without passing props.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5) Redux or Zustand:
+How redux works?: Centralized state management using actions and reducers.
+Why?: For managing complex application states.
+When?: In large applications with a need for a single source of truth.
+Redux Toolkit (RTK): Simplifies Redux setup and usage.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+6) Custom Hooks:
+When to use?: Extracting and reusing component logic.
+Code: Functions prefixed with "use" returning stateful logic.
+Why?: Enhances code organization, reusability, and readability.
+
+example of customHooks
+
+index.js
+
+import { useState, useEffect } from "react";
+
+const useFetch = (url, options = {}) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const info = await fetch(url, { ...options });
+      if (!info.ok) throw new Error(info.statusText);
+
+      const response = await info.json();
+      setData(response);
+      setError(null);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setError(`${e}. Some Error Occured `);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [url]);
+
+  return{data, error, loading}
+};
+
+export default useFetch;
+
+Test.js
+
+import useFetch from "./Index";
+
+const Test = () => {
+  const { data, error, loading } = useFetch(
+    "https://dummyjson.com/products",
+    {}
+  );
+  return (
+    <>
+      <h2>Test Component</h2>
+
+      {loading ? <h4>Loading! Please wait.</h4> : null}
+      {error ? <h4>{error} </h4> : null}
+
+      {/* {data?.products?.length  ?  data.products.map(()=> {}) : null } */}
+      {data && data.products && data.products.length
+        ? data.products.map((items) => {
+            return <h4 key={items.id}>{items?.title}</h4>;
+          })
+        : null}
+    </>
+  );
+};
+
+export default Test;
+
+Test2.js
+
+import useFetch from "./Index";
+
+const Test2 = () => {
+  const { data, error, loading } = useFetch(
+    "https://jsonplaceholder.typicode.com/users",
+    {}
+  );
+
+  return (
+    <>
+      <h2>Test2 Component</h2>
+
+      {loading ? <h4>Loading! Please wait.</h4> : null}
+      {error ? <h4>{error} </h4> : null}
+
+      {/* {data?.length ? data.map(()=>{}) : null} */}
+
+      {data && data.length
+        ? data.map((item) => {
+            return <h4 key={item.id}>{item.email}</h4>;
+          })
+        : null}
+    </>
+  );
+};
+
+export default Test2;
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+7) Lazy Loading:
+Code splitting: Breaking down the application into smaller parts.
+Chunking: Loading only the necessary code chunks.
+Suspense: Pausing rendering until a component is ready.
+
+
+What is Lazy Loading in React?
+Lazy loading in React refers to the practice of delaying the loading of components until they are needed, typically when they enter the viewport or when a certain condition is met. This helps in optimizing the initial load time of a web application by splitting the code into smaller chunks and loading them on demand.
+
+Why Lazy Loading is Done in React ?
+
+Lazy loading is implemented for several key reasons:
+
+Performance Optimization: By loading only the components that are needed initially, the initial load time of the application is reduced, leading to a faster, more responsive user experience.
+Reduced Bandwidth Usage: Users only download the necessary parts of the application, saving bandwidth, especially important for users with limited or slow internet connections.
+Improved User Experience: Faster load times and more responsive interfaces lead to a better overall user experience.
+Scalability: As applications grow larger, lazy loading helps manage the complexity and size of the application, making it easier to maintain and scale.
+
+How Lazy Loading is Done in React ?
+
+React provides a built-in way to implement lazy loading using React.lazy and Suspense.
+
+React.lazy: This function allows you to render a dynamic import as a regular component.
+
+import React, { lazy, Suspense } from 'react';
+
+const LazyComponent = lazy(() => import('./LazyComponent'));
+
+function App() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyComponent />
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
+
+Dynamic Import: lazy(() => import('./LazyComponent')) dynamically imports the LazyComponent only when it is needed.
+Suspense: Suspense is used to wrap the lazy-loaded component and provides a fallback UI (like a loading spinner) while the component is being loaded.
+
+React Router: If you are using React Router, you can lazy load route components.
+
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+const Home = lazy(() => import('./Home'));
+const About = lazy(() => import('./About'));
+
+function App() {
+  return (
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/about" component={About} />
+        </Switch>
+      </Suspense>
+    </Router>
+  );
+}
+
+export default App;
+
+When to Use Lazy Loading in React ?
+
+You should consider using lazy loading in the following scenarios:
+
+Large Applications: When your application has many routes or components, lazy loading helps manage the application's size and improve performance.
+Heavy Components: Components that are large in size or have heavy dependencies should be lazy-loaded to avoid slowing down the initial load.
+Non-Essential Components: Components that are not immediately visible or critical to the initial rendering of the application can be lazy-loaded.
+Improving User Experience: To ensure that the most critical parts of the application load first, providing a faster and smoother user experience.
+
+Example Scenario
+
+Consider a dashboard application with multiple heavy reports and analytics components. Initially, you only need to display a summary. You can lazy load the detailed report components so that they only load when the user navigates to them, keeping the initial load fast and efficient.
+
+By implementing lazy loading strategically, you can significantly improve the performance and user experience of your React applications.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+8) Virtual DOM:
+Reconciliation Algorithm: Efficiently updates the UI based on state changes. Reconciliation is a fundamental part of React's architecture,
+
+What is Reconciliation in React?
+Reconciliation is the process through which React updates the actual DOM to match the virtual DOM, which represents the current state of the UI. When the state or props of a component change, React updates the virtual DOM first. React then compares the new virtual DOM with the previous version (a process known as "diffing") to determine the minimal set of changes needed to update the real DOM. This process is key to React's efficiency and performance.
+
+Diff algorithm: Compares the previous and current state to determine changes.
+
+Why is Reconciliation Used in React?
+
+Reconciliation is used in React for several important reasons:
+
+Efficiency: By determining the minimal set of changes needed, React can update the real DOM more efficiently, which enhances performance, especially in complex applications.
+Abstraction: Developers can work with a declarative programming model. Instead of manually updating the DOM, they can describe what the UI should look like, and React handles the updates.
+Consistency: Ensures that the UI is always in sync with the application state, reducing the likelihood of bugs caused by manual DOM manipulations.
+
+How Reconciliation Works in React ?
+
+Rendering to the Virtual DOM:
+
+When a component's state or props change, React renders the component and its children to a new virtual DOM representation.
+Diffing Algorithm:
+
+React compares the new virtual DOM with the previous one. This comparison is done using a diffing algorithm that efficiently identifies the differences between the two virtual DOM trees.
+Updating the Real DOM:
+
+Based on the differences identified, React calculates the minimal set of changes required to update the real DOM. These changes might include adding, removing, or updating elements.
+Batching Updates:
+
+React batches multiple updates together to minimize the number of re-renders and improve performance. This is particularly important for handling frequent updates, such as those triggered by user input.
+
+React Fiber: A reimplementation of React's core algorithm.
+
+What is React Fiber?
+React Fiber is an internal reimplementation of React's core reconciliation algorithm designed to improve performance, responsiveness, and the ability to handle concurrent updates more efficiently. It introduces a new data structure (fiber), a prioritized scheduler, and incremental rendering capabilities to achieve these goals. Fiber is a foundational aspect of React's architecture that enables features like Suspense and Concurrent Mode, paving the way for more sophisticated user interfaces and better user experiences.
+
+Renders: The process of updating the virtual DOM.The render method in React is where you define the structure and appearance of your class-component's UI based on its props and state. It returns JSX that describes what should be rendered to the screen.
+
+How does render work?: Updating the UI based on virtual DOM changes.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9) SSR vs CSR (important):
+ CSR (Client-Side Rendering) and SSR (Server-Side Rendering)  are two different approaches to rendering web pages in React and other JavaScript frameworks. 
+
+CSR (Client-Side Rendering)
+Definition: Client-Side Rendering involves sending a minimal HTML page to the client's browser, usually just a root element and a script tag. The browser then downloads JavaScript code which is responsible for rendering the complete UI.
+
+Workflow:
+
+Request: The client requests a web page from the server.
+Minimal HTML: The server sends a basic HTML structure with a reference to a JavaScript bundle.
+JavaScript Execution: The browser downloads the JavaScript bundle, executes it, and renders the UI dynamically.
+API Fetching: The client-side JavaScript code may fetch data from APIs or other sources to populate the UI.
+
+Benefits:
+
+Interactivity: Enables rich and dynamic user interfaces with fast navigation between pages.
+Reduced Server Load: The server only needs to serve static assets and APIs, rather than rendering HTML for each request.
+Better Developer Experience: Easier to manage and develop complex UI interactions and dynamic content.
+
+Challenges:
+
+SEO: Search engines may have difficulty crawling and indexing content if it relies heavily on JavaScript for rendering.
+Performance: Slower initial load time as the browser needs to download and execute JavaScript before displaying content.
+User Experience: Users may experience content shift or delay if JavaScript execution is slow, especially on slower devices or networks.
+
+
+SSR (Server-Side Rendering)
+Definition: Server-Side Rendering involves rendering the initial HTML markup on the server before sending it to the client's browser. The server generates the complete HTML for a page and sends it as a fully formed document to the browser.
+
+Workflow:
+
+Request: The client (browser) makes a request to the server for a web page.
+Server Rendering: The server executes the React application, generates the HTML markup for the requested page, including data fetched from APIs or databases, and sends the rendered HTML back to the client.
+Client Hydration: Once the initial HTML is delivered to the client, React takes over in the browser, attaching event handlers and making the application interactive. This process is called hydration.
+
+Benefits:
+
+SEO: Search engines can easily crawl and index the content since the HTML is fully rendered on the server.
+Performance: Faster initial load time for users, especially on slower devices or networks.
+User Experience: Users see content quicker, which improves perceived performance.
+
+Challenges:
+
+Server Load: Rendering on the server can increase the load on the server, especially for complex applications.
+Initial Load Time: Although faster initially, subsequent navigation can be slower if not optimized with client-side routing.
+
+
+Choosing Between SSR and CSR
+SSR is typically preferred for content-heavy websites where SEO is critical, and initial load time is a priority.
+CSR is suitable for applications with complex user interactions, real-time updates, and where SEO is less critical (or can be managed with server-side techniques).
+
+Hybrid Approaches
+SSR with CSR Hydration: Combining both approaches allows for the benefits of SEO and initial load speed of SSR, with the interactivity and dynamic content management of CSR.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+10) Routing (Role-based access control-RBAC):
+react-router: Library for handling navigation in React applications.
+How do you manage protected routes?: Utilize authentication and authorization checks.
+How do you handle routes?: Define routes and components for navigation.
+Query params: Additional information passed in the URL.
+Dynamic routing: Creating routes dynamically based on data.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+11) Testing:
+React Testing Library: Testing library for React applications (Jest).
+Unit Testing: Testing individual units of code.
+Writing unit tests for React components involves verifying that individual components behave as expected in isolation, independent of their dependencies or the broader application environment
+Hack for interview: Emphasize writing testable code and demonstrate test cases.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+12) Async Tasks:
+API Calls: Fetching data from external sources.
+
+api calls with axios
+
+function Homepage() {
+  const [data, setData] = useState([]);
+
+  function fetchProducts() {
+    axios
+      .get("https://fakestoreapi.com/products")
+
+      .then((res) => {
+        setData(res.data);
+      })
+
+      .catch((err) => {
+        console.log("Error:", err);
+      });
+  }
+
+  
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  console.log("data", data);
+}
+
+api calls with fetch()
+
+const useFetch = (url, options = {}) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const info = await fetch(url, { ...options });
+      if (!info.ok) throw new Error(info.statusText);
+
+      const response = await info.json();
+      setData(response);
+      setError(null);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setError(`${e}. Some Error Occured `);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [url]);
+}
+
+useEffect in depth: Managing side effects, including async operations.
+Events: Handling asynchronous events.
+Promises: A pattern for handling asynchronous operations.
+setTimeout: Delaying the execution of code.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+13) Reusability, Readability, modularity, testability (Coding Practices):
+
+Reusability
+Definition: Reusability refers to the ability to use existing code or components to build new functionality without rewriting them from scratch. It promotes efficiency and consistency across projects.
+
+Readability
+Definition: Readability refers to how easy it is to understand and comprehend the code. It focuses on clarity, simplicity, and logical structure.
+
+Modularity
+Definition: Modularity is the practice of breaking down a system into smaller, independent, and interchangeable modules or components. Each module focuses on a single responsibility or functionality.
+
+Testability
+Definition: Testability refers to how easy it is to test the code thoroughly using automated testing techniques. It ensures that the code behaves as expected under different conditions.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+14) Performance:
+Lazy loading: Loading resources only when needed.
+Asset optimization: Minifying and compressing JS/CSS code.
+Writing optimized code: Following best practices for efficient code.
+Bundler: Tools like Webpack, parcel, vite to bundle and optimize code.
+CDN / Server level: Distributing assets for faster loading.
+Rendering of components: Optimizing rendering for better performance.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+15) Styling:
+Tailwind, StyleX, Bootstrap, Material UI, Ant UI, CSS / SCSS: Different styling approaches and libraries.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+BFF
+The "Backend for Frontend" (BFF) concept is a design pattern often used in modern web and mobile application development. It involves creating separate backend services tailored to the needs of different frontends (such as web, mobile, or other user interfaces) to provide a more efficient and optimized user experience.
+
+Customization: Each frontend (web, mobile, etc.) has its own BFF that tailors the backend data and logic to meet its specific needs. This means that mobile apps get data formatted for mobile use, web apps get data formatted for web use, and so on.
+
+Optimization: The BFF handles the complexities of communication with the backend, ensuring efficient data retrieval and processing.
+
+Separation of Concerns: BFFs allow developers to separate the frontend concerns from the backend logic, making both easier to manage and evolve independently.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Micro-Frontend 
+
+Independent Development: Each micro-frontend is developed by a different team, using the technologies and processes that best suit their needs.
+
+Isolation: Micro-frontends are isolated from each other, reducing the risk of one part of the application affecting another.
+
+Seamless Integration: Despite their independence, micro-frontends are seamlessly integrated into a cohesive user experience, much like how different stores in a mall provide a unified shopping experience.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
