@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express");    // express is used for creating server
 const app = express();
 const port = 8000; // port created for the server to server
 const connectDB = require("./db/dbConnection");

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');     // mongoose is used for connecting nodejs with mongodb
 
 
 // creating logic for connection of MongoDB with nodejs
