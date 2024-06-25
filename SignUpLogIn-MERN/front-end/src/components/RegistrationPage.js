@@ -11,6 +11,7 @@ const RegistrationPage = () => {
   const handleRegisterSubmit = async(e) => {
     e.preventDefault();
 
+    // axios.post("http://localhost:8000/register", registrationData) === app.post("/register", async (req, res) => {
     try {
       const response =  await axios.post("http://localhost:8000/register", registrationData)
       console.log(response.data)

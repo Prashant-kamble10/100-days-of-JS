@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');     // mongoose is used for connecting nodejs with mongodb
 
 
-// creating logic for connection of MongoDB with nodejs
+
 console.log("waiting to connect with mongodb")
 
 
-
+// creating logic for connection of MongoDB with nodejs
 const connectDB =  async () =>{
       try{
         await mongoose.connect("mongodb://127.0.0.1:27017/mydatabase");
