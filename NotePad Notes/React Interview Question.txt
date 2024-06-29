@@ -227,11 +227,11 @@ Step 3: Use the Context in a Component
 Step 4: Use the Provider in Your App
 
 // ThemeContext.js
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState } from 'react';              
 
-export const ThemeContext = createContext();
+export const ThemeContext = createContext();                            Step 1: Create a Context
 
-export const ThemeProvider = ({ children }) => {
+export const ThemeProvider = ({ children }) => {                         Step 2: Create a Provider Component
   const [theme, setTheme] = useState('light');
 
   return (
@@ -246,7 +246,7 @@ import React, { useContext } from 'react';
 import { ThemeContext } from './ThemeContext';
 
 const ThemedComponent = () => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useContext(ThemeContext);                   Step 3: Use the Context in a Component
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
@@ -269,7 +269,7 @@ import { ThemeProvider } from './ThemeContext';
 import ThemedComponent from './ThemedComponent';
 
 const App = () => (
-  <ThemeProvider>
+  <ThemeProvider>                                                   Step 4: Use the Provider in Your App
     <ThemedComponent />
   </ThemeProvider>
 );
@@ -737,10 +737,44 @@ SSR with CSR Hydration: Combining both approaches allows for the benefits of SEO
 
 10) Routing (Role-based access control-RBAC):
 react-router: Library for handling navigation in React applications.
+
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
+<BrowserRouter>
+<nav>
+  <ul>
+    <li>
+      <Link to="/">Home</Link>
+    </li>
+    <li>
+      <Link to="/about">About</Link>
+    </li>
+    <li>
+      <Link to="/contact">Contact</Link>
+    </li>
+  </ul>
+</nav>
+</BrowserRouter>
+
+<Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/about" element={<About />} />
+  <Route path="/contact" element={<Contact />} />
+</Routes>
+
 How do you manage protected routes?: Utilize authentication and authorization checks.
 How do you handle routes?: Define routes and components for navigation.
 Query params: Additional information passed in the URL.
 Dynamic routing: Creating routes dynamically based on data.
+
+<Route path="/users/:id" element={<User />} />
+
+import { useParams } from "react-router-dom";
+
+function User() {
+  let { id } = useParams();
+  return <h3>User {id}</h3>;
+}
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 11) Testing:
