@@ -1,0 +1,37 @@
+git init 
+git status
+git add "filename"
+git commit -m "message"
+git log --oneline
+
+in git head = node/junction
+head means "where are you right now in git".
+
+git branch
+git branch "branchName"
+git switch "branchName"   // switch to other branch
+
+git switch -c "branchName"
+git checkout "branchName"     // checking girl out
+
+be on the main branch, and you want other branch to get merged to the main branch
+right now be on the main branch
+git merge "other branchName"
+
+Rename branch name
+git branch -m "old branchName"   "new branchName"
+
+Delete branchName
+git branch -d "branchName"
+
+
+git push commands
+git remote add origin <your-github-repo-url>
+git push -u origin main
+git add .
+git commit -m "Your commit message"
+git push
+
+
+clone repo from github
+git clone url
